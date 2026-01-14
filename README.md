@@ -1,6 +1,7 @@
 # Gmail to Google Sheets Automation
 
 **Author:** Tarun
+
 **Internship Assignment - Gmail & Google Sheets API**
 
 ## Overview
