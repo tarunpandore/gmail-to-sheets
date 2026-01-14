@@ -6,7 +6,8 @@ from google.auth.transport.requests import Request
 import os
 
 SCOPES = [
-    "https://www.googleapis.com/auth/gmail.modify"
+    "https://www.googleapis.com/auth/gmail.modify",
+    "https://www.googleapis.com/auth/spreadsheets"
 ]
 
 TOKEN_PATH = "token.json"
@@ -32,7 +33,7 @@ def get_gmail_service():
             token.write(creds.to_json())
 
     service = build("gmail", "v1", credentials=creds)
-    return service
+    return service, creds
 
 def fetch_unread_emails(service, max_results=10):
     query = "is:unread in:inbox"
@@ -52,3 +53,9 @@ def mark_as_read(service, message_id):
         body={"removeLabelIds": ["UNREAD"]}
     ).execute()
 
+def get_email(service, message_id):
+    return service.users().messages().get(
+        userId="me",
+        id=message_id,
+        format="full"
+    ).execute()
